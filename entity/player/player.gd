@@ -6,6 +6,7 @@ class_name Player extends Entity
 @export var dash_speed: float = 1500.0
 @export var dash_distance: float = 500.0
 @export var dash_duration: float = 0.5 # in seconds
+@export var dash_cooldown: float = 0.2 # in seconds
 
 enum State {
 	IDLE,
@@ -20,6 +21,7 @@ var dashing: bool = false
 var can_dash: bool = true
 var dash_distance_remaining: float = 0.0
 var dash_time_remaining: float = 0.0
+var dash_recharge_time: float = 0.0
 var dash_target_point: Vector2 = Vector2.ZERO
 
 
@@ -28,16 +30,12 @@ var dash_target_point: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
-	if not dash_cooldown_timer.is_connected(
-		"timeout", 
-		_on_dash_cooldown_timeout
-	):
-		dash_cooldown_timer.connect("timeout", _on_dash_cooldown_timeout)
+	_dash_setup()
 
 
 func _physics_process(delta: float) -> void:
-	var move_dir := Input.get_vector(
-		"move_left", "move_right", "move_up", "move_down").normalized()
+	var move_dir := Game.move_joystick_position
+	var dashed := Game.dash_joystick_released
 
 	# Process states
 	match current_state:
@@ -49,7 +47,7 @@ func _physics_process(delta: float) -> void:
 	# Transition states
 	if dashing:
 		current_state = State.DASHING
-	elif can_dash and Input.is_action_pressed("dash"):
+	elif can_dash and dashed:
 		current_state = State.START_DASH
 	elif move_dir != Vector2.ZERO:
 		current_state = State.MOVING
@@ -57,12 +55,12 @@ func _physics_process(delta: float) -> void:
 		current_state = State.IDLE
 
 	# Debug state
-	state_label.text = print_state(current_state)
+	state_label.text = _print_state(current_state)
 
 	move_and_slide()
 
 
-func print_state(state: int) -> String:
+func _print_state(state: int) -> String:
 	match state:
 		State.IDLE: return "idle"
 		State.MOVING: return "moving"
@@ -85,7 +83,7 @@ func _process_start_dash() -> void:
 	dash_distance_remaining = dash_distance
 	dash_time_remaining = dash_duration
 
-	var dash_dir = (get_global_mouse_position() - global_position).normalized()
+	var dash_dir = Game.dash_joystick_position
 	dash_target_point = dash_dir * dash_distance
 
 	dashing = true
@@ -103,6 +101,16 @@ func _process_dashing(delta: float) -> void:
 
 	# Dash movement
 	velocity = dash_target_point.normalized() * dash_speed
+
+
+func _dash_setup() -> void:
+	if not dash_cooldown_timer.is_connected(
+		"timeout", 
+		_on_dash_cooldown_timeout
+	):
+		dash_cooldown_timer.connect("timeout", _on_dash_cooldown_timeout)
+	dash_recharge_time = dash_cooldown
+	dash_cooldown_timer.wait_time = dash_recharge_time
 
 
 func _on_dash_cooldown_timeout() -> void:

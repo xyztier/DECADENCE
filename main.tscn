@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://b5pw8bd1ekhmx" path="res://entity/player/player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://b0wi1ytak6m0c" path="res://entity/enemy/enemy.tscn" id="3_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://j1gsj5tkeuw7" path="res://assets/icon.svg" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://2njfptlxeogb" path="res://joystick/move/move_joystick.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://bbgwghw3gnl5f" path="res://joystick/dash/dash_joystick.tscn" id="5_lquwl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
 size = Vector2(128, 128)
@@ -40,3 +42,13 @@ position = Vector2(960, 540)
 
 [node name="Enemy" parent="." unique_id=1584016522 instance=ExtResource("3_1bvp3")]
 position = Vector2(1714, 213)
+move_speed = 500.0
+attack_distance = 350.0
+
+[node name="Joystick" type="CanvasLayer" parent="." unique_id=845837963]
+
+[node name="MoveJoystick" parent="Joystick" unique_id=1104781509 instance=ExtResource("4_1bvp3")]
+position = Vector2(288, 800)
+
+[node name="DashJoystick" parent="Joystick" unique_id=374660230 instance=ExtResource("5_lquwl")]
+position = Vector2(1632, 800)

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://2njfptlxeogb"]
+
+[ext_resource type="PackedScene" uid="uid://dmg10bm1phw4u" path="res://joystick/joystick.tscn" id="1_siids"]
+[ext_resource type="Script" uid="uid://dryi5klydsw8j" path="res://joystick/move/move_joystick.gd" id="2_a47e5"]
+
+[node name="MoveJoystick" unique_id=1104781509 instance=ExtResource("1_siids")]
+script = ExtResource("2_a47e5")

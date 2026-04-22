@@ -7,9 +7,6 @@ class_name Entity extends CharacterBody2D
 
 @onready var sprite: Sprite2D = $Sprite
 
-func _ready() -> void:
-	print("a")
-
 
 func take_damage(amount: float) -> void:
 	health -= amount

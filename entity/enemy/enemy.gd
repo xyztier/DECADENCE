@@ -39,12 +39,12 @@ func _physics_process(delta: float) -> void:
 		current_state = State.IDLE
 
 	# Debug state
-	state_label.text = print_state(current_state)
+	state_label.text = _print_state(current_state)
 
 	move_and_slide()
 
 
-func print_state(state: int) -> String:
+func _print_state(state: int) -> String:
 	match state:
 		State.IDLE: return "idle"
 		State.CHASING: return "chasing"

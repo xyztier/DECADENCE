@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bbgwghw3gnl5f"]
+
+[ext_resource type="PackedScene" uid="uid://dmg10bm1phw4u" path="res://joystick/joystick.tscn" id="1_grsih"]
+[ext_resource type="Script" uid="uid://dpjp22logv2uq" path="res://joystick/dash/dash_joystick.gd" id="2_5x4my"]
+
+[node name="DashJoystick" unique_id=1104781509 instance=ExtResource("1_grsih")]
+script = ExtResource("2_5x4my")
+
+[node name="Base" parent="." index="0" unique_id=1623793713]
+self_modulate = Color(0, 1, 0, 0.35000002)
+
+[node name="Sprite" parent="Stick" parent_id_path=PackedInt32Array(1972446715) index="0" unique_id=1977043875]
+self_modulate = Color(0, 1, 0, 1)
