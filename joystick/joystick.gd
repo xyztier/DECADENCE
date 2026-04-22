@@ -37,7 +37,6 @@ func _input(event: InputEvent) -> void:
 			if _in_click_area(event.position):
 				dragging = true
 				my_index = event.index
-				print(name + ": " + str(my_index) + str(event.index))
 				_reposition_joystick(event.position, event.is_pressed())
 				_control_joystick(event.position)
 		elif my_index == event.index:
@@ -50,7 +49,6 @@ func _input(event: InputEvent) -> void:
 
 
 func _control_joystick(pos: Vector2) -> void:
-
 	stick.global_position = pos
 	dir = stick.global_position - global_position
 
