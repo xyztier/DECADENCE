@@ -3,8 +3,7 @@ class_name Joystick extends Node2D
 
 const STICK_CLAMP: float = 100.0
 
-
-@export var click_area: float = 348.0
+@export var click_area: float = 256.0
 
 
 var bounds: PackedVector2Array = PackedVector2Array([
@@ -12,9 +11,16 @@ var bounds: PackedVector2Array = PackedVector2Array([
 	Vector2(click_area, click_area), # Bottom right
 ])
 
+var screen_size: Vector2:
+	get:
+		screen_size = get_viewport_rect().size
+		return screen_size
+
 var default_pos: Vector2 = Vector2.ZERO
 var dir: Vector2 = Vector2.ZERO
 var dragging: bool = false
+
+var my_index: int = 0
 
 
 @onready var base: Sprite2D = $Base
@@ -30,18 +36,21 @@ func _input(event: InputEvent) -> void:
 		if event.is_pressed():
 			if _in_click_area(event.position):
 				dragging = true
+				my_index = event.index
+				print(name + ": " + str(my_index) + str(event.index))
 				_reposition_joystick(event.position, event.is_pressed())
-				_move_joystick(event.position)
-		else:
-			dragging = false
+				_control_joystick(event.position)
+		elif my_index == event.index:
 			_reposition_joystick(event.position, event.is_pressed())
 			_release_joystick()
-	elif event is InputEventScreenDrag:
-		if dragging:
-			_move_joystick(event.position)
+			dragging = false
+	if event is InputEventScreenDrag:
+		if dragging and my_index == event.index:
+			_control_joystick(event.position)
 
 
-func _move_joystick(pos: Vector2) -> void:
+func _control_joystick(pos: Vector2) -> void:
+
 	stick.global_position = pos
 	dir = stick.global_position - global_position
 

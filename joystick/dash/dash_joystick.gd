@@ -11,7 +11,12 @@ class_name DashJoystick extends Joystick
 var in_cooldown: bool = false
 
 
-func _move_joystick(pos: Vector2) -> void:
+func _ready() -> void:
+	global_position.x = screen_size.x - 288.0 # Temporary (also in move_joystick)
+	super()
+
+
+func _control_joystick(pos: Vector2) -> void:
 	if in_cooldown:
 		return
 
@@ -20,6 +25,9 @@ func _move_joystick(pos: Vector2) -> void:
 
 
 func _release_joystick() -> void:
+	if not dragging:
+		return
+
 	super()
 
 	in_cooldown = true

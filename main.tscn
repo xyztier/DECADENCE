@@ -50,5 +50,6 @@ attack_distance = 350.0
 [node name="MoveJoystick" parent="Joystick" unique_id=1104781509 instance=ExtResource("4_1bvp3")]
 position = Vector2(288, 800)
 
-[node name="DashJoystick" parent="Joystick" unique_id=374660230 instance=ExtResource("5_lquwl")]
+[node name="DashJoystick" parent="Joystick" unique_id=374660230 node_paths=PackedStringArray("player") instance=ExtResource("5_lquwl")]
 position = Vector2(1632, 800)
+player = NodePath("../../Player")
