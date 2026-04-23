@@ -8,6 +8,9 @@ class_name KitChanger extends TouchScreenButton
 		return player
 
 
+var prezzed: bool = false
+
+
 func _ready() -> void:
 	# Debug position idk bruh
 	# This is also in the joysticks and kit slots
@@ -21,3 +24,7 @@ func _on_pressed() -> void:
 		new_kit = player.current_kit + 1
 
 	player.change_kit(new_kit)
+
+	# Debug
+	prezzed = not prezzed
+	self_modulate.a = 0.75 if prezzed else 0.25
